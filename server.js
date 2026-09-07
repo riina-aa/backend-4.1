@@ -1,6 +1,11 @@
-const express = require("express"); 
+//Hämtar paket
+const express = require("express");
 const cors = require("cors"); 
 const mongoose = require("mongoose"); 
+require("dotenv").config(); 
+
+//Hämtar routes
+const authRoutes = require("./routes/authRoutes"); 
 
 const app = express(); 
 const port = process.env.PORT; 
@@ -34,7 +39,9 @@ const webshopSchema = new mongoose.Schema({
 const Webshop = mongoose.model("webshop", webshopSchema); 
 
 //Routes 
-app.get("/webshop" , async (req, res) => {
+app.use("/webshop/login", authRoutes); 
+
+app.get("/webshop/products" , async (req, res) => {
 
     try {
         
@@ -48,7 +55,7 @@ app.get("/webshop" , async (req, res) => {
     }
 }); 
 
-app.post("/webshop", async (req, res) => {
+app.post("/webshop/products", async (req, res) => {
 
     try {
         
@@ -62,7 +69,7 @@ app.post("/webshop", async (req, res) => {
     }
 }); 
 
-app.put("/webshop/:id", async (req, res) => {
+app.put("/webshop/products/:id", async (req, res) => {
 
     const { productName, description, productPrice } = req.body;
 
@@ -85,7 +92,7 @@ app.put("/webshop/:id", async (req, res) => {
     }
 });
 
-app.delete("/webshop/:id", async (req, res) => {
+app.delete("/webshop/products/:id", async (req, res) => {
 
     try {
         let result = await Webshop.deleteOne({ _id: req.params.id });
