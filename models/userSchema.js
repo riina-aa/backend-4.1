@@ -23,11 +23,9 @@ userSchema.pre("save", async function(next) {
             this.password = hashedPassword; 
         }
 
-        next()
-
     } catch (error) {
         
-        next(error); 
+        throw error; 
     }
 }); 
 
@@ -75,7 +73,7 @@ userSchema.statics.login = async (username, password) => {
 
         //Rätt lösenord 
         return user; 
-        
+
     } catch (error) {
         throw error; 
     }

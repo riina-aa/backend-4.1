@@ -47,7 +47,5 @@ userSchema.pre("save", async function(next) {
 })
 
 const Webshop = mongoose.model("webshop", webshopSchema); 
-const Users = mongoose.model("users", userSchema); 
 
 module.exports = Webshop;
-module.exports = Users; 

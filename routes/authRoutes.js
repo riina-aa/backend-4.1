@@ -13,14 +13,14 @@ router.post("/register", async (req, res) => {
         }
 
         //Korrekt input - spara användare 
-        const user = new User({ username, password}); 
+        const user = new Users({ username, password}); 
         await user.save(); 
 
         res.status(200).json({ message: "Användaruppgifterna är sparade."}); 
 
     } catch (error) {
         
-        res.status(500).json({ message: "Serverfel. Vänligen pröva igen om en stund."})
+        res.json({ message: "Det blev fel " + error});
     }
 }); 
 
@@ -41,7 +41,7 @@ router.post("/login", async (req, res) => {
             return res.status(401).json({ message: "Användarnamn eller lösenord är fel."}); 
         }
 
-        const isPasswordMatch = await Users.comparePassword(password); 
+        const isPasswordMatch = await user.comparePassword(password); 
 
         if(!isPasswordMatch) {
             return res.status(401).json({ message: "Användarnamn eller lösenord är fel."}); 
@@ -49,10 +49,8 @@ router.post("/login", async (req, res) => {
             res.status(200).json({ message: "Inloggningen lyckades"}); 
         }
 
-
-
     } catch (error) {
-        
+        throw error; 
     }
 })
 
