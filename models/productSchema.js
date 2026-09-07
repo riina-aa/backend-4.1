@@ -1,5 +1,5 @@
 const mongoose = require("mongoose"); 
-
+const bcrypt = require("bcrypt"); 
 
 //Product schema
 const webshopSchema = new mongoose.Schema({
@@ -30,6 +30,21 @@ const userSchema = new mongoose.Schema({
         required: [true, "Du måste ange ett lösenord"]
     }
 }); 
+
+userSchema.pre("save", async function(next) {
+    try {
+        if(this.isNew || this.isModified("password")) {
+            const hashedPassword = await bcrypt.hash(this.password, 10);
+            this.password = hashedPassword; 
+        }
+
+        next()
+
+    } catch (error) {
+        
+        next(error); 
+    }
+})
 
 const Webshop = mongoose.model("webshop", webshopSchema); 
 const Users = mongoose.model("users", userSchema); 
