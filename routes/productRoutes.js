@@ -1,8 +1,6 @@
 const express = require("express"); 
 const router = express.Router();
-const Webshop = require("../models/webshop");
-
-console.log("productRoutes.js har laddats");
+const Webbshop = require("../models/schemas");
 
 router.get("/products" , async (req, res) => {
     res.json({message: "GET-anropet fungerar"})
