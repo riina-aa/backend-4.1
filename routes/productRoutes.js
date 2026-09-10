@@ -1,7 +1,7 @@
 const express = require("express"); 
 const router = express.Router();
 const Webbshop = require("../models/productSchema");
-const { authenticateToken } = require("../server");
+const authenticateToken = require("../middleware/authenticateToken")
 
 router.get("/products" , async (req, res) => {
      
