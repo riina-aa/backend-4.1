@@ -17,35 +17,6 @@ const webshopSchema = new mongoose.Schema({
     }
 }); 
 
-//User schema 
-const userSchema = new mongoose.Schema({
-    username: {
-        type: String, 
-        required: [true, "Du måste ange ett användarnamn"], 
-        unique: [true, "Användarnamnet finns redan. Vänligen välj ett nytt."], 
-        trim: true
-    }, 
-    password: {
-        type: String, 
-        required: [true, "Du måste ange ett lösenord"]
-    }
-}); 
-
-userSchema.pre("save", async function(next) {
-    try {
-        if(this.isNew || this.isModified("password")) {
-            const hashedPassword = await bcrypt.hash(this.password, 10);
-            this.password = hashedPassword; 
-        }
-
-        next()
-
-    } catch (error) {
-        
-        next(error); 
-    }
-})
-
 const Webshop = mongoose.model("webshop", webshopSchema); 
 
 module.exports = Webshop;
